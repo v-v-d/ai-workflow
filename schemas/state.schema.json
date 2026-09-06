@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/ai-workflow/state.schema.json",
+  "title": "Feature Pipeline State",
+  "type": "object",
+  "required": [
+    "schema_version", "feature_id", "title", "current_stage",
+    "business_request", "artifacts", "implementation", "history"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "feature_id": {"type": "string", "pattern": "^FEATURE-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "current_stage": {
+      "enum": ["requirements", "design", "architecture", "test_plan", "implementation", "acceptance", "complete"]
+    },
+    "waiting_for_human": {"type": "boolean"},
+    "business_request": {"type": "object"},
+    "artifacts": {
+      "type": "object",
+      "required": ["requirements", "design", "architecture", "test_plan", "acceptance"]
+    },
+    "implementation": {
+      "type": "object",
+      "required": ["stages"],
+      "properties": {"stages": {"type": "array"}}
+    },
+    "history": {"type": "array"}
+  },
+  "additionalProperties": true
+}
